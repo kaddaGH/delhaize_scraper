@@ -9,7 +9,7 @@ products = data['results']
 
 
 # if ot's first page , generate pagination
-if current_page == 0 and number_of_pages > 1 and 2>4
+if current_page == 0 and number_of_pages > 1
   nbr_products_pg1 = products.length
   step_page = 1
   while step_page < number_of_pages
@@ -37,7 +37,7 @@ else
 end
 
 
-products.take(4).each_with_index do |product, i|
+products.each_with_index do |product, i|
 
   promotion = product['potentialPromotions'][0]['description'] rescue ''
 
@@ -113,7 +113,7 @@ products.take(4).each_with_index do |product, i|
       PRODUCT_ID: product['code'],
       PRODUCT_NAME: product['manufacturerName'] + ' - ' + product['name'],
       EAN: ean,
-      PRODUCT_DESCRIPTION: product['description'],
+      #PRODUCT_DESCRIPTION: product['description'],
       PRODUCT_MAIN_IMAGE_URL:image,
       PRODUCT_ITEM_SIZE: item_size,
       PRODUCT_ITEM_SIZE_UOM: uom,
