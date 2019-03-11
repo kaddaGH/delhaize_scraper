@@ -14,7 +14,7 @@ pages << {
         'page' => 1
     }
 }
-search_terms = ['Red Bull', 'RedBull', 'Energy Drink', 'Boisson Énergisante']
+search_terms = ['Red Bull', 'RedBull', 'Energy Drink', 'Boisson Energisante']
 search_terms.take(1).each do |search_term|
 
   pages << {
