@@ -5,9 +5,6 @@ parsers:
   - page_type: products_search
     file: ./parsers/products_search.rb
     disabled: false
-  - page_type: product_reviews
-    file: ./parsers/product_reviews.rb
-    disabled: false
 exporters:
   - exporter_name: products_json
     exporter_type: json

@@ -17,7 +17,7 @@ search_terms.each do |search_term|
   pages << {
       page_type: 'products_search',
       method: 'GET',
-      url: "https://www.delhaize.be/search/products/loadMore?text=red+bull&pageSize=20&pageNumber=0&sort=relevance&q=red+bull%3Arelevance",
+      url: "https://www.delhaize.be/search/products/loadMore?text=red+bull&pageSize=20&pageNumber=0&sort=relevance&q=#{CGI.escape(search_term)}%3Arelevance",
       vars: {
           'input_type' => 'search',
           'search_term' => search_term,
