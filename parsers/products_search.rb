@@ -9,7 +9,7 @@ products = data['results']
 
 
 # if ot's first page , generate pagination
-if current_page == 0 and number_of_pages > 1
+if current_page == 0 and number_of_pages > 1 and 2>4
   nbr_products_pg1 = products.length
   step_page = 1
   while step_page < number_of_pages
@@ -37,7 +37,7 @@ else
 end
 
 
-products.each_with_index do |product, i|
+products.take(4).each_with_index do |product, i|
 
   promotion = product['potentialPromotions'][0]['description'] rescue ''
 
@@ -93,7 +93,7 @@ products.each_with_index do |product, i|
   in_pack = $1
   in_pack ||= '1'
   ean = product['eanCodes'][0] rescue ''
-  image = 'https://dhf6qt42idbhy.cloudfront.net' + product['thumbnailImage'] rescue ""
+  image = 'https://dhf6qt42idbhy.cloudfront.net' + product['images'][0]['url'] rescue ""
   product_details = {
       # - - - - - - - - - - -
       RETAILER_ID: '128',
@@ -124,7 +124,22 @@ products.each_with_index do |product, i|
   }
   product_details['_collection'] = 'products'
   product_details['EXTRACTED_ON'] = Time.now.to_s
-  outputs << product_details
+
+
+
+  pages << {
+      page_type: 'product_description',
+      method: 'GET',
+      url: "https://www.delhaize.be#{product['url']}?search=#{page['vars']['search_term']}&ipage=#{page['vars']['page']}&irank=#{i + 1}",
+
+      vars: {
+          'product_details' => product_details
+      }
+
+  }
+
+
+
 
 
 end
