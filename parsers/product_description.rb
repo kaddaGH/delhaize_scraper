@@ -1,8 +1,8 @@
 body = Nokogiri.HTML(content)
-description = body.at_css(".ShowMoreLess__content").text rescue ''
+description = body.at_css(".ShowMoreLess__content").to_s rescue ''
 
-description = description.gsub(/Conseils d[^<]+\Z/,'').gsub(/^[^<]+Description/,'').strip
 
+description = description.gsub(/^[^{]+<h3>Description<\/h3>/,'').gsub(/<h3>[^{]+\Z/,'').gsub(/<[^<>]+>/,'').gsub(/[\n\s,]/,' ').strip
 products_details = page['vars']['product_details']
 
 products_details[:PRODUCT_DESCRIPTION]=description
