@@ -124,7 +124,7 @@ products.each_with_index do |product, i|
   }
   product_details['_collection'] = 'products'
   product_details['EXTRACTED_ON'] = Time.now.to_s
-  #outputs << product_details
+  outputs << product_details
 
 
 end
