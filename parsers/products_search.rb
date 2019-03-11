@@ -1,9 +1,10 @@
 data = JSON.parse(content)
-
+require './lib/headers'
 
 scrape_url_nbr_products = data['pagination']['totalNumberOfResults'].to_i
 current_page = data['pagination']['currentPage'].to_i
 number_of_pages = data['pagination']['numberOfPages'].to_i
+
 products = data['results']
 
 
@@ -15,6 +16,7 @@ if current_page == 0 and number_of_pages > 1
     pages << {
         page_type: 'products_search',
         method: 'GET',
+        headers: ReqHeaders::SEARCH_PAGE_HEADER_REQ,
         url: page['url'].gsub(/pageNumber=0/, "pageNumber=#{step_page}"),
         vars: {
             'input_type' => page['vars']['input_type'],
@@ -122,7 +124,7 @@ products.each_with_index do |product, i|
   }
   product_details['_collection'] = 'products'
   product_details['EXTRACTED_ON'] = Time.now.to_s
-  outputs << product_details
+  #outputs << product_details
 
 
 end
