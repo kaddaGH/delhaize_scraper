@@ -1,8 +1,6 @@
 data = JSON.parse(content)
 
 
-
-
 scrape_url_nbr_products = data['pagination']['totalNumberOfResults'].to_i
 current_page = data['pagination']['currentPage'].to_i
 number_of_pages = data['pagination']['numberOfPages'].to_i
@@ -33,7 +31,7 @@ if current_page == 0 and number_of_pages > 1
 elsif current_page == 0 and number_of_pages == 1
   nbr_products_pg1 = products.length
 else
- nbr_products_pg1 = page['vars']['nbr_products_pg1']
+  nbr_products_pg1 = page['vars']['nbr_products_pg1']
 end
 
 
@@ -41,8 +39,8 @@ products.each_with_index do |product, i|
 
   promotion = product['potentialPromotions'][0]['description'] rescue ''
 
-  availability = product['stock']['inStock']== true ? '1' : ''
-  item_size_info = product['price']['supplementaryPriceLabel2'].gsub(/,/,'.')
+  availability = product['stock']['inStock'] == true ? '1' : ''
+  item_size_info = product['price']['supplementaryPriceLabel2'].gsub(/,/, '.')
 
   price = product['price']['value'] rescue ''
 
@@ -93,7 +91,7 @@ products.each_with_index do |product, i|
   in_pack = $1
   in_pack ||= '1'
   ean = product['eanCodes'][0] rescue ''
-
+  image = 'https://dhf6qt42idbhy.cloudfront.net' + product['thumbnailImage'] rescue ""
   product_details = {
       # - - - - - - - - - - -
       RETAILER_ID: '128',
@@ -102,7 +100,7 @@ products.each_with_index do |product, i|
       # - - - - - - - - - - -
       SCRAPE_INPUT_TYPE: page['vars']['input_type'],
       SCRAPE_INPUT_SEARCH_TERM: page['vars']['search_term'],
-      SCRAPE_INPUT_CATEGORY: page['vars']['input_type'] == 'taxonomy' ? 'Boissons energisantes': '-',
+      SCRAPE_INPUT_CATEGORY: page['vars']['input_type'] == 'taxonomy' ? 'Boissons energisantes' : '-',
       SCRAPE_URL_NBR_PRODUCTS: scrape_url_nbr_products,
       # - - - - - - - - - - -
       SCRAPE_URL_NBR_PROD_PG1: nbr_products_pg1,
@@ -111,10 +109,10 @@ products.each_with_index do |product, i|
       PRODUCT_RANK: i + 1,
       PRODUCT_PAGE: current_page + 1,
       PRODUCT_ID: product['code'],
-      PRODUCT_NAME: product['manufacturerName']+' - '+product['name'],
+      PRODUCT_NAME: product['manufacturerName'] + ' - ' + product['name'],
       EAN: ean,
       PRODUCT_DESCRIPTION: product['description'],
-      PRODUCT_MAIN_IMAGE_URL: 'https://dhf6qt42idbhy.cloudfront.net'+product['thumbnailImage'],
+      PRODUCT_MAIN_IMAGE_URL:image,
       PRODUCT_ITEM_SIZE: item_size,
       PRODUCT_ITEM_SIZE_UOM: uom,
       PRODUCT_ITEM_QTY_IN_PACK: in_pack,
@@ -123,7 +121,7 @@ products.each_with_index do |product, i|
       PROMOTION_TEXT: promotion,
   }
   product_details['_collection'] = 'products'
-  product_details['EXTRACTED_ON']= Time.now.to_s
+  product_details['EXTRACTED_ON'] = Time.now.to_s
   outputs << product_details
 
 
