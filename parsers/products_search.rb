@@ -46,51 +46,60 @@ products.each_with_index do |product, i|
 
   price = product['price']['value'] rescue ''
 
+  [title,item_size_info].each do |size_text|
+    next unless size_text
+    regexps = [
+        /(\d*[\.,]?\d+)\s?([Ff][Ll]\.?\s?[Oo][Zz])/,
+        /(\d*[\.,]?\d+)\s?([Oo][Zz])/,
+        /(\d*[\.,]?\d+)\s?([Ff][Oo])/,
+        /(\d*[\.,]?\d+)\s?([Ee][Aa])/,
+        /(\d*[\.,]?\d+)\s?([Ff][Zz])/,
+        /(\d*[\.,]?\d+)\s?(Fluid Ounces?)/,
+        /(\d*[\.,]?\d+)\s?([Oo]unce)/,
+        /(\d*[\.,]?\d+)\s?([Mm][Ll])/,
+        /(\d*[\.,]?\d+)\s?([Cc][Ll])/,
+        /(\d*[\.,]?\d+)\s?([Ll])/,
+        /(\d*[\.,]?\d+)\s?([Gg])/,
+        /(\d*[\.,]?\d+)\s?([Ll]itre)/,
+        /(\d*[\.,]?\d+)\s?([Ss]ervings)/,
+        /(\d*[\.,]?\d+)\s?([Pp]acket\(?s?\)?)/,
+        /(\d*[\.,]?\d+)\s?([Cc]apsules)/,
+        /(\d*[\.,]?\d+)\s?([Tt]ablets)/,
+        /(\d*[\.,]?\d+)\s?([Tt]ubes)/,
+        /(\d*[\.,]?\d+)\s?([Cc]hews)/,
+        /(\d*[\.,]?\d+)\s?([Mm]illiliter)/i,
+    ]
+    regexps.find {|regexp| size_text =~ regexp}
+    item_size = $1
+    uom = $2
 
-  regexps = [
-      /(\d*[\.,]?\d+)\s?([Ff][Ll]\.?\s?[Oo][Zz])/,
-      /(\d*[\.,]?\d+)\s?([Oo][Zz])/,
-      /(\d*[\.,]?\d+)\s?([Ff][Oo])/,
-      /(\d*[\.,]?\d+)\s?([Ee][Aa])/,
-      /(\d*[\.,]?\d+)\s?([Ff][Zz])/,
-      /(\d*[\.,]?\d+)\s?(Fluid Ounces?)/,
-      /(\d*[\.,]?\d+)\s?([Oo]unce)/,
-      /(\d*[\.,]?\d+)\s?([Mm][Ll])/,
-      /(\d*[\.,]?\d+)\s?([Cc][Ll])/,
-      /(\d*[\.,]?\d+)\s?([Ll])/,
-      /(\d*[\.,]?\d+)\s?([Gg])/,
-      /(\d*[\.,]?\d+)\s?([Ll]itre)/,
-      /(\d*[\.,]?\d+)\s?([Ss]ervings)/,
-      /(\d*[\.,]?\d+)\s?([Pp]acket\(?s?\)?)/,
-      /(\d*[\.,]?\d+)\s?([Cc]apsules)/,
-      /(\d*[\.,]?\d+)\s?([Tt]ablets)/,
-      /(\d*[\.,]?\d+)\s?([Tt]ubes)/,
-      /(\d*[\.,]?\d+)\s?([Cc]hews)/,
-      /(\d*[\.,]?\d+)\s?([Mm]illiliter)/i,
-  ]
-  regexps.find {|regexp| item_size_info =~ regexp}
-  item_size = $1
-  uom = $2
+    break item_size, uom if item_size && uom
+  end
 
 
-  regexps = [
-      /(\d+)\s?[xX]/,
-      /Pack of (\d+)/,
-      /Box of (\d+)/,
-      /Case of (\d+)/,
-      /(\d+)\s?[Cc]ount/,
-      /(\d+)\s?[Cc][Tt]/,
-      /(\d+)[\s-]?Pack($|[^e])/,
-      /(\d+)[\s-]pack($|[^e])/,
-      /(\d+)[\s-]?[Pp]ak($|[^e])/,
-      /(\d+)[\s-]?Tray/,
-      /(\d+)\s?[Pp][Kk]/,
-      /(\d+)\s?([Ss]tuks)/i,
-      /(\d+)\s?([Pp]ak)/i,
-      /(\d+)\s?([Pp]ack)/i,
-  ]
-  regexps.find {|regexp| item_size_info =~ regexp}
-  in_pack = $1
+  [title,item_size_info].each do |size_text|
+    match = [
+        /(\d+)\s?[xX]/,
+        /Pack of (\d+)/,
+        /Box of (\d+)/,
+        /Case of (\d+)/,
+        /(\d+)\s?[Cc]ount/,
+        /(\d+)\s?[Cc][Tt]/,
+        /(\d+)[\s-]?Pack($|[^e])/,
+        /(\d+)[\s-]pack($|[^e])/,
+        /(\d+)[\s-]?[Pp]ak($|[^e])/,
+        /(\d+)[\s-]?Tray/,
+        /(\d+)\s?[Pp][Kk]/,
+        /(\d+)\s?([Ss]tuks)/i,
+        /(\d+)\s?([Pp]ak)/i,
+        /(\d+)\s?([Pp]ack)/i,
+    ].find {|regexp| size_text =~ regexp}
+    in_pack = $1
+
+    break in_pack if in_pack
+  end
+
+
   in_pack ||= '1'
   ean = product['eanCodes'][0] rescue ''
   image = 'https://dhf6qt42idbhy.cloudfront.net' + product['images'][0]['url'] rescue ""
