@@ -45,8 +45,10 @@ products.each_with_index do |product, i|
   item_size_info = product['price']['supplementaryPriceLabel2'].gsub(/,/, '.')
 
   price = product['price']['value'] rescue ''
-
-  [product['name'],item_size_info].each do |size_text|
+  item_size = nil
+  uom = nil
+  in_pack = nil
+  [product['name'], item_size_info].each do |size_text|
     next unless size_text
     regexps = [
         /(\d*[\.,]?\d+)\s?([Ff][Ll]\.?\s?[Oo][Zz])/,
@@ -77,7 +79,7 @@ products.each_with_index do |product, i|
   end
 
 
-  [product['name'],item_size_info].each do |size_text|
+  [product['name'], item_size_info].each do |size_text|
     match = [
         /(\d+)\s?[xX]/,
         /Pack of (\d+)/,
@@ -123,7 +125,7 @@ products.each_with_index do |product, i|
       PRODUCT_NAME: product['manufacturerName'] + ' - ' + product['name'],
       EAN: ean,
       #PRODUCT_DESCRIPTION: product['description'],
-      PRODUCT_MAIN_IMAGE_URL:image,
+      PRODUCT_MAIN_IMAGE_URL: image,
       PRODUCT_ITEM_SIZE: item_size,
       PRODUCT_ITEM_SIZE_UOM: uom,
       PRODUCT_ITEM_QTY_IN_PACK: in_pack,
@@ -133,7 +135,6 @@ products.each_with_index do |product, i|
   }
   product_details['_collection'] = 'products'
   product_details['EXTRACTED_ON'] = Time.now.to_s
-
 
 
   pages << {
@@ -146,9 +147,6 @@ products.each_with_index do |product, i|
       }
 
   }
-
-
-
 
 
 end
