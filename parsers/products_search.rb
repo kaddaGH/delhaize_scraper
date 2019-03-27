@@ -46,7 +46,7 @@ products.each_with_index do |product, i|
 
   price = product['price']['value'] rescue ''
 
-  [title,item_size_info].each do |size_text|
+  [product['name'],item_size_info].each do |size_text|
     next unless size_text
     regexps = [
         /(\d*[\.,]?\d+)\s?([Ff][Ll]\.?\s?[Oo][Zz])/,
@@ -77,7 +77,7 @@ products.each_with_index do |product, i|
   end
 
 
-  [title,item_size_info].each do |size_text|
+  [product['name'],item_size_info].each do |size_text|
     match = [
         /(\d+)\s?[xX]/,
         /Pack of (\d+)/,
