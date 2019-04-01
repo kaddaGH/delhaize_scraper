@@ -60,6 +60,7 @@ products.each_with_index do |product, i|
         /(\d*[\.,]?\d+)\s?([Oo]unce)/,
         /(\d*[\.,]?\d+)\s?([Mm][Ll])/,
         /(\d*[\.,]?\d+)\s?([Cc][Ll])/,
+        /(\d*[\.,]?\d+)\s?([Pp][Cc])/,
         /(\d*[\.,]?\d+)\s?([Ll])/,
         /(\d*[\.,]?\d+)\s?([Gg])/,
         /(\d*[\.,]?\d+)\s?([Ll]itre)/,
