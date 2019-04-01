@@ -9,7 +9,7 @@ products = data['results']
 
 
 # if ot's first page , generate pagination
-if current_page == 0 and number_of_pages > 1
+if current_page == 0 and number_of_pages > 1 and 4>5
   nbr_products_pg1 = products.length
   step_page = 1
   while step_page < number_of_pages
@@ -33,7 +33,7 @@ if current_page == 0 and number_of_pages > 1
 elsif current_page == 0 and number_of_pages == 1
   nbr_products_pg1 = products.length
 else
-  nbr_products_pg1 = page['vars']['nbr_products_pg1']
+  nbr_products_pg1 = '22'#page['vars']['nbr_products_pg1']
 end
 
 
